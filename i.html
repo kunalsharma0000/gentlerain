@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GentleRain</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #D96629;
+            color: #F8E9C0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #F8E9C0;
+            font-size: 16px;
+        }
+        .auth-buttons a, .try-now {
+            margin-left: 15px;
+            color: #F8E9C0;
+            text-decoration: none;
+            border: 1px solid #F8E9C0;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        .title {
+            font-size: 100px;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+        }
+        .logo-icon {
+            width: 100px;
+            height: 100px;
+            background: url('icon.png') no-repeat center center;
+            background-size: cover;
+            margin: 20px auto;
+        }
+        
+            .description {
+    font-size: 30px;
+    max-width: 600px;
+    position: absolute;
+    bottom: -250px;
+    left: 80px;
+    text-align: left;
+}
+        
+        .buttons {
+            position: absolute;
+    bottom: -200px;
+    right: 30px;
+        }
+        .contact-sales {
+            background: none;
+            border: 1px solid #F8E9C0;
+            padding: 10px 20px;
+            color: #F8E9C0;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .buttons a {
+            margin-left: 15px;
+            color: #F8E9C0;
+            text-decoration: none;
+        }
+        /* Canvas styling */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .title {
+            font-size: 100px;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            transition: text-shadow 0.1s ease-in-out;
+        }
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #D96629;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease-in-out;
+            z-index: 1000;
+        }
+        .water-drop {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 30%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            animation: ripple 1.5s infinite;
+        }
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+       
+    </style>
+</head>
+<body>
+    <div class="loader-container" id="loader">
+        <h1>GentleRain ....</h1>
+
+        <div class="water-drop">
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <header>
+        <div class="nav-container">
+            <span class="logo">gentlerain</span>
+            <nav>
+                <a href="#">Product</a>
+                <a href="#">Concept</a>
+                <a href="#">For business</a>
+                <a href="#">Partners</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="#">Sign Up</a>
+                <a href="#">Log in</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <h1 class="title" id="gentleRainTitle">gentlerain</h1>
+        <div class="logo-icon"></div>
+        <p class="description">Leverage AI to grow valuable skills through immersive realistic role play scenarios</p>
+        <div class="buttons">
+            <button class="contact-sales" style="font-size: 20px;">Contact Sales</button>
+            <a href="#" style="font-size: 1px;">Log In</a>
+        </div>
+    </main>
+
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var title = document.getElementById("gentleRainTitle");
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        var particules = [];
+        
+      
+        requestAnimFrame = (function() {
+            return window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            window.msRequestAnimationFrame ||
+            function(callback) {
+                window.setTimeout(callback, 1000/60);
+            };
+        })();
+
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var width = canvas.width = window.innerWidth;
+        var height = canvas.height = window.innerHeight;
+        var particules = [], gouttes = [], nombreb = 2;
+
+        function Rain(X, Y, nombre = nombreb) {
+            while (nombre--) {
+                particules.push({
+                    vitesseX: Math.random() * 0.25,
+                    vitesseY: Math.random() * 9 + 1,
+                    X: X,
+                    Y: Y,
+                    couleur: "rgba(255, 255, 255, 0.8)",
+                });
+            }
+        }
+
+        function explosion(X, Y, couleur, nombre = 5) {
+            while (nombre--) {
+                gouttes.push({
+                    vitesseX: Math.random() * 4 - 2,
+                    vitesseY: Math.random() * -4,
+                    X: X,
+                    Y: Y,
+                    radius: 0.65 + Math.floor(Math.random() * 1.6),
+                    couleur: couleur
+                });
+            }
+        }
+
+        function update() {
+            particules.forEach((p, index) => {
+                p.X += p.vitesseX;
+                p.Y += p.vitesseY;
+                if (p.Y > height) {
+                    particules.splice(index, 1);
+                    explosion(p.X, p.Y, p.couleur);
+                }
+            });
+            gouttes.forEach((g, index) => {
+                g.X += g.vitesseX;
+                g.Y += g.vitesseY;
+                g.radius -= 0.075;
+                if (g.radius <= 0) {
+                    gouttes.splice(index, 1);
+                }
+            });
+            for (let i = 0; i < 5; i++) {
+                Rain(Math.random() * width, -10);
+            }
+        }
+
+        function render() {
+            ctx.clearRect(0, 0, width, height);
+            particules.forEach(p => {
+                ctx.fillStyle = p.couleur;
+                ctx.fillRect(p.X, p.Y, 2, 10);
+            });
+            gouttes.forEach(g => {
+                ctx.fillStyle = g.couleur;
+                ctx.beginPath();
+                ctx.arc(g.X, g.Y, g.radius, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function loop() {
+            requestAnimFrame(loop);
+            update();
+            render();
+        }
+        loop();
+        document.addEventListener("mousemove", (event) => {
+            let shadowX = (event.clientX - window.innerWidth / 2) / 10;
+            let shadowY = (event.clientY - window.innerHeight / 2) / 10;
+            title.style.textShadow = `${shadowX}px ${shadowY}px 20px rgba(0, 0, 0, 0.6)`;
+            title.style.transform = `translate(${shadowX / 2}px, ${shadowY / 2}px)`;
+        });
+
+        document.addEventListener("click", (event) => {
+            let shadowX = event.clientX;
+            let shadowY = event.clientY;
+            ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+            ctx.beginPath();
+            ctx.arc(shadowX, shadowY, 15, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById("loader").classList.add("hidden");
+            }, 2000);
+        };
+    </script>
+</body>
+</html>
